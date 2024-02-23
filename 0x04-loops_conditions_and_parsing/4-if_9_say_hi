@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#display "Best School" 10 times but Hi in the 9th
+c=0
+
+while [ $c -lt 11 ]
+do
+if [ $c -eq 9 ]
+then
+echo "Hi"
+else
+echo "Best School"
+fi
+
+((c++))
+	done

@@ -1,7 +1,31 @@
 #!/usr/bin/env bash
-# Install nginx web server
-sudo apt-get -y update
-sudo apt-get -y install nginx
-sudo ufw allow 'Nginx HTTP'
-echo 'Hello World!' > /var/www/html/index.nginx-debian.html
-sudo service nginx start
+
+# Install Nginx
+apt-get update
+apt-get install -y nginx
+
+# Configure Nginx to listen on port 80
+sed -i 's/.*listen\s*80.*/listen 80;/g' /etc/nginx/sites-available/default
+
+# Restart Nginx without using systemctl
+service nginx restart
+
+# Check if Nginx is running
+if ! pgrep -x "nginx" > /dev/null
+then
+    echo "Nginx failed to start. Please check the configuration."
+    exit 1
+fi
+
+# Create index.html file with "Hello World!" message
+echo "<html><body><h1>Hello World!</h1></body></html>" > /var/www/html/index.html
+
+# Check if Nginx serves "Hello World!" message
+response=$(curl -s http://localhost)
+if [[ $response != *"Hello World!"* ]]; then
+    echo "Nginx is not serving the 'Hello World!' message."
+    exit 1
+fi
+
+echo "Nginx has been installed and configured successfully."
+

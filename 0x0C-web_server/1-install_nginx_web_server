@@ -1,25 +1,15 @@
 #!/usr/bin/env bash
+# Commands to install Nginx on Web-Sever-01
 
-# Install Nginx
-apt-get update
-apt-get install -y nginx
+sudo apt-get update
+sudo apt-get -y install nginx
 
-sed -i 's/.*listen\s*80.*/listen 80;/g' /etc/nginx/sites-available/default
+sudo service nginx start
 
-service nginx restart
+sudo ufw allow 'Nginx HTTP'
 
-if ! pgrep -x "nginx" > /dev/null
-then
-    echo "Nginx failed to start. Please check the configuration."
-    exit 1
-fi
+echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
 
-echo "<html><body><h1>Hello World!</h1></body></html>" > /var/www/html/index.html
+sudo nginx -t
 
-response=$(curl -s http://localhost)
-if [[ $response != *"Hello World!"* ]]; then
-    echo "Nginx is not serving the 'Hello World!' message."
-    exit 1
-fi
-
-echo "Nginx has been installed and configured successfully."
+sudo service nginx restart

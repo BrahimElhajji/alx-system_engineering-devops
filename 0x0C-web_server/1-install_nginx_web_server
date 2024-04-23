@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Install nginx web server
+
+sudo apt-get update
+sudo apt-get -y install nginx
+
+sudo ufw allow 'Nginx HTTP'
+
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+sudo nginx -t
+
+sudo service nginx restart
+
+if ! pgrep -x "nginx" > /dev/null
+then
+    echo "Nginx failed to start. Please check the configuration."
+    exit 1
+fi
+
+echo "Nginx has been installed and configured successfully."

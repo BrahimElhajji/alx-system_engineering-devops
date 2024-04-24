@@ -15,3 +15,4 @@ echo "Ceci n'est pas une page" >> /var/www/html/error_404.html
 sudo sed -i "47i\ $PATTERN$MPAGE_NFOUND" /etc/nginx/sites-available/default
 
 sudo service nginx restart
+sudo service nginx reload

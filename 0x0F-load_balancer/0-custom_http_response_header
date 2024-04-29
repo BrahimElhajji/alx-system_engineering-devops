@@ -1,10 +1,35 @@
 #!/bin/bash
 
+if [[ $EUID -ne 0 ]]; then
+    echo "This script must be run as root" 
+    exit 1
+fi
+
 apt-get update
 apt-get install -y nginx
 
-custom_header_config="add_header X-Served-By \$hostname;"
+mkdir -p /var/www/html/
 
-echo $custom_header_config | tee -a /etc/nginx/nginx.conf
+echo "Hello World!" > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+
+cat << EOF > /etc/nginx/sites-available/default
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By \$hostname;
+    root   /var/www/html/;
+    index  index.html index.htm;
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=TfgBHC5gvTI;
+    }
+
+    error_page 404 /404.html;
+    location /404 {
+        internal;
+    }
+}
+EOF
 
 service nginx restart

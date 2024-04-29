@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-# Install and configure HAproxy on your lb-01 server.
+# Install and configure HAProxy on lb-01 server.
 
-apt-get update
-apt-get install -y haproxy
+apt-get update || { echo "Failed to update package lists"; exit 1; }
+
+apt-get install -y haproxy || { echo "Failed to install HAProxy"; exit 1; }
 
 cat <<EOF > /etc/haproxy/haproxy.cfg
 frontend http_front
@@ -18,4 +19,6 @@ EOF
 
 echo "ENABLED=1" >> /etc/default/haproxy
 
-service haproxy restart
+service haproxy restart || { echo "Failed to restart HAProxy"; exit 1; }
+
+echo "HAProxy installation and configuration completed successfully."

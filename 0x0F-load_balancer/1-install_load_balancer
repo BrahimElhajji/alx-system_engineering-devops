@@ -1,24 +1,22 @@
 #!/usr/bin/env bash
-# Install and configure HAProxy on lb-01 server.
+# Installs HAProxy version 1.8 with the following configurations:
+#+    Enables management via the init script.
+#+    Distributes requests using a round-robin algorithm.
 
-apt-get update || { echo "Failed to update package lists"; exit 1; }
+apt-get update
+apt-get install -y haproxy
 
-apt-get install -y haproxy || { echo "Failed to install HAProxy"; exit 1; }
-
-cat <<EOF > /etc/haproxy/haproxy.cfg
-frontend http_front
-    bind *:80
-    mode http
-    default_backend http_back
-
-backend http_back
-    balance roundrobin
-    server 531196-web-01 100.26.246.41:80 check
-    server 531196-web-02 54.166.60.69:80 check
-EOF
+printf %s "
+frontend hbnb-lb_front
+        bind *:80
+        mode http
+        default_backend hbnb-lb_back
+backend hbnb-lb_back
+        balance roundrobin
+        server 531196-web-01 100.26.246.41:80 check
+        server 531196-web-02 54.166.60.69:80 check
+" >> /etc/haproxy/haproxy.cfg
 
 echo "ENABLED=1" >> /etc/default/haproxy
 
-service haproxy restart || { echo "Failed to restart HAProxy"; exit 1; }
-
-echo "HAProxy installation and configuration completed successfully."
+service haproxy start

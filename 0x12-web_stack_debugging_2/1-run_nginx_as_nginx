@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# runs nginx as nginx
+
+# Stop the Apache service
+pkill apache2
+
+# Update ownership and permissions for the Nginx configuration file
+chown nginx:nginx /etc/nginx/nginx.conf
+chmod 644 /etc/nginx/nginx.conf
+
+# Update the Nginx site configuration to listen on port 8080
+sed -i 's/80/8080/g' /etc/nginx/sites-available/default
+
+# Start the Nginx service as the 'nginx' user
+sudo -u nginx service nginx start

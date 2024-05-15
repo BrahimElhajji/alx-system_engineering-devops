@@ -1,0 +1,12 @@
+[mysqld]
+# Bind address commented out
+# bind-address = 127.0.0.1
+
+# Server ID
+server-id = 1
+
+# Log file
+log-bin = mysql-bin
+
+# Database to replicate
+binlog_do_db = tyrell_corp

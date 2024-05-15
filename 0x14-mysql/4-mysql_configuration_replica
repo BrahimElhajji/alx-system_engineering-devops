@@ -1,0 +1,20 @@
+[mysqld]
+# Bind address commented out
+# bind-address = 127.0.0.1
+
+# Server ID
+server-id = 2
+
+# Log file
+log-bin = mysql-bin
+
+# Relay log file
+relay-log = mysql-relay-bin
+
+# Database to replicate
+replicate_do_db = tyrell_corp
+
+# Master connection settings
+master-host = 158.69.68.78
+master-user = replica_user
+master-port = 3306

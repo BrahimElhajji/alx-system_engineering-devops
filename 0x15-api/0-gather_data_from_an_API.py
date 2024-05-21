@@ -13,7 +13,7 @@ def get_employee_todo_list(employee_id):
     print("Employee {} is done with tasks({}/{}):".format(
         user.get("name"), len(completed), len(todos)))
     for task in completed:
-        print("\t{}".format(task))
+        print("\t {}".format(task))
 
 
 if __name__ == "__main__":

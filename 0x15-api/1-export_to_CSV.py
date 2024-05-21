@@ -21,12 +21,10 @@ def get_team_member_task_list(team_member_id):
         print("\t{}".format(task))
 
     with open('{}.csv'.format(team_member_id), 'w', newline='') as csvfile:
-        csv_writer = csv.writer(csvfile)
-        csv_writer.writerow(
-                ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+        csv_writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
         for task in task_list:
             csv_writer.writerow(
-                    [team_member_id, team_member_data.get("name"),
+                    [team_member_id, team_member_data.get("username"),
                         task.get("completed"), task.get("title")])
 
 

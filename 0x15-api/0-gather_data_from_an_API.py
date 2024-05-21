@@ -3,6 +3,7 @@
 import requests
 import sys
 
+
 def get_employee_todo_list(employee_id):
     url = "https://jsonplaceholder.typicode.com/"
     user = requests.get(url + "users/{}".format(employee_id)).json()
@@ -13,6 +14,7 @@ def get_employee_todo_list(employee_id):
         user.get("name"), len(completed), len(todos)))
     for task in completed:
         print("\t{}".format(task))
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

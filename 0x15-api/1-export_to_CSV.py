@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """Returns task list information for a
 given team member ID and exports to CSV."""
+import csv
 import requests
 import sys
-import csv
 
 
 def get_team_member_task_list(team_member_id):

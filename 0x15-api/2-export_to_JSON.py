@@ -13,9 +13,9 @@ def get_team_member_task_list(team_member_id):
             api_url + "todos", params={"userId": team_member_id}).json()
 
     with open('{}.json'.format(team_member_id), 'w') as jsonfile:
-        json_data = {"USER_ID": []}
+        json_data = {str(team_member_id): []}
         for task in task_list:
-            json_data["USER_ID"].append({
+            json_data[str(team_member_id)].append({
                 "task": task.get("title"),
                 "completed": task.get("completed"),
                 "username": team_member_data.get("username")

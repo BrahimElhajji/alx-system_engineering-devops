@@ -1,6 +1,6 @@
 #Fixing a Permissions Issue
 
-file { '/var/www/html/wp-settings.php':
+exec { '/var/www/html/wp-settings.php':
   ensure  => file,
   content => template('wp-settings.php.erb'),
   owner   => 'www-data',

@@ -1,7 +1,21 @@
 #Fixing a Permissions Issue
 
-exec { 'fix_db_charset':
-  command => 'sed -i "s/define(\\\'DB_CHARSET\\\', \\'\\');/define(\\\'DB_CHARSET\\\', \\'utf8\\');/g" /var/www/html/wp-config.php',
-  path    => ['/bin', '/usr/bin', '/usr/local/bin'],
-  onlyif  => 'grep -q "define(\\\'DB_CHARSET\\\', \\'\\');" /var/www/html/wp-config.php',
+if !('puppetlabs/stdlib' in $::installed_modules) {
+  package { 'puppetlabs-stdlib':
+    ensure => present,
+    provider => 'puppet_gem',
+  }
+}
+
+file_line { 'fix-wordpress':
+  path  => '/var/www/html/wp-settings.php',
+  match => 'phpp',
+  line  => 'php',
+  notify => Service['apache2'],
+}
+
+service { 'apache2':
+  ensure    => running,
+  enable    => true,
+  subscribe => File_line['fix-wordpress'],
 }

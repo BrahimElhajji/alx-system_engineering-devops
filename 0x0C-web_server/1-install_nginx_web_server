@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
-# Commands to install Nginx on Web-Sever-01
+# Installs Nginx, sets up a custom Hello World page, and ensures it's running
 
-sudo apt-get update
-sudo apt-get upgrade -y
-sudo apt-get -y install nginx
+# Update and install nginx
+apt-get update
+apt-get install -y nginx
 
-sudo ufw allow 'Nginx HTTP'
+# Create custom HTML page
+echo "Hello World!" > /var/www/html/index.html
 
-echo "Hello World!" | sudo tee /var/www/html/index.html
-
-sudo nginx -t
-
-sudo service nginx restart
+# Ensure Nginx is running
+service nginx start || service nginx restart
